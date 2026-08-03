@@ -22,8 +22,6 @@ local function prepareServerAppearance(data)
 
     success, data = pcall(json.decode, encoded)
     if not success or type(data) ~= 'table' then return end
-
-    -- Language and preview helpers stay personal to each player.
     data.language = nil
     data.previewCount = nil
     data.previewSet = nil
@@ -35,15 +33,11 @@ end
 
 local function isAppearanceAdmin(source)
     if IsPlayerAceAllowed(tostring(source), 'ox_target.admin') then return true end
-
-    -- Some RedM setups do not resolve identifier principals through the player
-    -- source. Check every live identifier as a principal as a safe fallback.
     for _, identifier in ipairs(GetPlayerIdentifiers(source)) do
         if IsPrincipalAceAllowed(('identifier.%s'):format(identifier), 'ox_target.admin') then
             return true
         end
     end
-
     return false
 end
 
