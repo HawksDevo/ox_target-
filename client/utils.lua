@@ -31,7 +31,6 @@ function utils.getTexture()
     return lib.requestStreamedTextureDict('menu_textures'), 'menu_icon_circle'
 end
 
--- SetDrawOrigin is limited to 32 calls per frame. Set as 0 to disable.
 local drawZoneSprites = GetConvarInt('ox_target:drawSprite', 24)
 local SetDrawOrigin = SetDrawOrigin
 local DrawSprite = DrawSprite
