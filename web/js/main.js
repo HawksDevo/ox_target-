@@ -582,7 +582,6 @@ async function refreshAppearanceAdmin() {
     const result = await fetchNui("getAppearanceAdminStatus", {});
     if (result?.success) setAppearanceAdmin(result.isAdmin);
   } catch {
-    // Keep the admin value supplied by the initial open message.
   }
 }
 
@@ -593,7 +592,6 @@ async function copyShareCode(code) {
       return true;
     }
   } catch {
-    // CEF may block the Clipboard API; the selection fallback remains available.
   }
 
   shareCodeInput.focus();

@@ -10,7 +10,6 @@ local api = setmetatable({}, {
     end
 })
 
----Throws a formatted type error
 ---@param variable string
 ---@param expected string
 ---@param received string
@@ -18,7 +17,6 @@ local function typeError(variable, expected, received)
     error(("expected %s to have type '%s' (received %s)"):format(variable, expected, received))
 end
 
----Checks options and throws an error on type mismatch
 ---@param options OxTargetOption | OxTargetOption[]
 ---@return OxTargetOption[]
 local function checkOptions(options)
