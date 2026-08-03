@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ox_target</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="style.css?v=2.7.4">
+</head>
+<body>
+  <main id="target-hud" aria-hidden="true">
+    <div id="eye" aria-hidden="true">
+      <span class="target-pulse"></span>
+      <span class="target-visual-wrap">
+        <i id="eyeSvg" class="fa-solid fa-eye target-icon target-visual"></i>
+        <img id="eyeImage" class="target-image target-visual" alt="" referrerpolicy="no-referrer" hidden>
+      </span>
+    </div>
+    <div id="options-wrapper"></div>
+  </main>
+
+  <section id="appearance-overlay" class="appearance-overlay" aria-hidden="true">
+    <div class="settings-shell" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <header class="settings-header">
+        <div class="brand-mark"><i class="fa-solid fa-crosshairs"></i></div>
+        <div>
+          <p class="eyebrow">OX TARGET</p>
+          <h1 id="settings-title">Personalizacija izgleda</h1>
+          <p class="settings-subtitle">Podesi target po svom ukusu. Promjene odmah vidiš u pregledu.</p>
+        </div>
+        <div class="settings-header-actions">
+          <label class="language-control">
+            <i class="fa-solid fa-language"></i>
+            <select id="language-select" aria-label="Jezik sučelja">
+              <option value="en">English</option>
+              <option value="de">Deutsch</option>
+              <option value="hr">Hrvatski</option>
+            </select>
+          </label>
+          <button id="close-settings" class="icon-button" type="button" aria-label="Zatvori postavke">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="settings-content">
+        <aside class="preview-panel">
+          <div class="preview-heading">
+            <div>
+              <span class="section-kicker">PREGLED UŽIVO</span>
+              <h2>Tvoj target</h2>
+            </div>
+            <span class="status-chip"><span></span> Aktivno</span>
+          </div>
+
+          <div class="preview-toolbar">
+            <span>Broj testnih tabli</span>
+            <div class="preview-count-picker" role="radiogroup" aria-label="Broj testnih opcija">
+              <button type="button" data-preview-count="1">1</button>
+              <button type="button" data-preview-count="2">2</button>
+              <button type="button" data-preview-count="3">3</button>
+              <button type="button" data-preview-count="4">4</button>
+              <button type="button" data-preview-count="5">5</button>
+              <button type="button" data-preview-count="6">6</button>
+            </div>
+            <button id="reset-custom-layout" class="preview-reset" type="button"><i class="fa-solid fa-rotate-left"></i> Vrati</button>
+          </div>
+          <div class="preview-set-row">
+            <label>Set testnih tabli
+              <select id="preview-set-select">
+                <option value="interactions">Interakcije</option>
+                <option value="work">Posao</option>
+                <option value="vehicle">Vozilo</option>
+                <option value="storage">Skladište</option>
+                <option value="custom">Vlastiti nazivi</option>
+              </select>
+            </label>
+            <input id="custom-preview-labels" type="text" maxlength="180" placeholder="Meni, Skladište, Smjena..." autocomplete="off" spellcheck="false">
+          </div>
+          <p id="custom-drag-hint" class="custom-drag-hint"><i class="fa-solid fa-hand-pointer"></i> Povuci table u previewu gdje ih želiš postaviti.</p>
+
+          <div id="preview-stage" class="preview-stage">
+            <div id="preview-target" class="preview-target">
+              <span class="preview-pulse"></span>
+              <span class="target-visual-wrap">
+                <i id="preview-eye" class="fa-solid fa-eye target-icon target-visual"></i>
+                <img id="preview-image" class="target-image target-visual" alt="" referrerpolicy="no-referrer" hidden>
+              </span>
+            </div>
+            <div id="preview-options" class="preview-options"></div>
+          </div>
+
+          <p class="preview-hint"><i class="fa-solid fa-wand-magic-sparkles"></i> Sve postavke su samo tvoje i spremaju se lokalno.</p>
+        </aside>
+
+        <form id="appearance-form" class="controls-panel">
+          <div class="control-section">
+            <div class="section-title">
+              <span class="section-icon"><i class="fa-solid fa-icons"></i></span>
+              <div><span class="section-kicker">IKONICA</span><h2>Odaberi target znak</h2></div>
+            </div>
+            <div class="source-tabs" role="radiogroup" aria-label="Izvor target znaka">
+              <button type="button" class="source-tab" data-icon-mode="preset"><i class="fa-solid fa-table-cells"></i> Ponuđene</button>
+              <button type="button" class="source-tab" data-icon-mode="custom"><i class="fa-brands fa-font-awesome"></i> FA klasa</button>
+              <button type="button" class="source-tab" data-icon-mode="image"><i class="fa-regular fa-image"></i> PNG link</button>
+            </div>
+            <div id="preset-icon-panel" class="icon-source-panel">
+              <div id="icon-picker" class="icon-picker" role="radiogroup" aria-label="Target ikonica">
+                <button type="button" class="icon-choice" data-icon="fa-eye" aria-label="Oko"><i class="fa-solid fa-eye"></i></button>
+                <button type="button" class="icon-choice" data-icon="fa-crosshairs" aria-label="Nišan"><i class="fa-solid fa-crosshairs"></i></button>
+                <button type="button" class="icon-choice" data-icon="fa-bullseye" aria-label="Meta"><i class="fa-solid fa-bullseye"></i></button>
+                <button type="button" class="icon-choice" data-icon="fa-hand-pointer" aria-label="Pokazivač"><i class="fa-solid fa-hand-pointer"></i></button>
+                <button type="button" class="icon-choice" data-icon="fa-location-crosshairs" aria-label="Lokacija"><i class="fa-solid fa-location-crosshairs"></i></button>
+                <button type="button" class="icon-choice" data-icon="fa-compass" aria-label="Kompas"><i class="fa-solid fa-compass"></i></button>
+                <button type="button" class="icon-choice" data-icon="fa-hat-cowboy" aria-label="Kaubojski šešir"><i class="fa-solid fa-hat-cowboy"></i></button>
+                <button type="button" class="icon-choice" data-icon="fa-star" aria-label="Zvijezda"><i class="fa-solid fa-star"></i></button>
+                <button type="button" class="icon-choice" data-icon="fa-skull" aria-label="Lubanja"><i class="fa-solid fa-skull"></i></button>
+              </div>
+            </div>
+            <div id="custom-icon-panel" class="icon-source-panel">
+              <label class="text-control">Font Awesome klasa
+                <input type="text" name="customIcon" maxlength="80" placeholder="fa-solid fa-hat-cowboy" autocomplete="off" spellcheck="false">
+              </label>
+              <p class="field-help">Primjer: <code>fa-solid fa-horse</code> ili <code>fa-solid fa-gun</code></p>
+            </div>
+            <div id="image-icon-panel" class="icon-source-panel">
+              <label class="text-control">HTTPS link do PNG/WebP/GIF slike
+                <input type="url" name="imageUrl" maxlength="500" placeholder="https://example.com/target.png" autocomplete="off" spellcheck="false">
+              </label>
+              <div class="inline-image-controls">
+                <label class="range-control"><span>Veličina slike <output id="image-size-output"></output></span><input type="range" min="14" max="48" step="1" name="imageSize"></label>
+                <label class="mini-check"><input type="checkbox" name="imageRound"><span><i class="fa-solid fa-circle"></i> Zaobljena slika</span></label>
+              </div>
+              <p class="field-help">Koristi direktan HTTPS link. Ako se slika ne može učitati, prikazat će se zadana ikonica.</p>
+            </div>
+          </div>
+
+          <div class="control-section">
+            <div class="section-title">
+              <span class="section-icon"><i class="fa-solid fa-object-group"></i></span>
+              <div><span class="section-kicker">OBLIK TABLE</span><h2>Forma svake opcije</h2></div>
+            </div>
+            <div id="shape-picker" class="shape-picker" role="radiogroup" aria-label="Oblik target tabli">
+              <button type="button" class="shape-choice" data-tab-shape="rounded"><span class="shape-swatch rounded"></span><strong>Standard</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="pill"><span class="shape-swatch pill"></span><strong>Kapsula</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="compact"><span class="shape-swatch compact"></span><strong>Kompaktna</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="sharp"><span class="shape-swatch sharp"></span><strong>Oštra</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="split"><span class="shape-swatch split"></span><strong>Odvojena ikona</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="floating"><span class="shape-swatch floating"></span><strong>Lebdeća</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="ticket"><span class="shape-swatch ticket"></span><strong>Ulaznica</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="angled"><span class="shape-swatch angled"></span><strong>Rezani kutovi</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="double"><span class="shape-swatch double"></span><strong>Dupli okvir</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="soft"><span class="shape-swatch soft"></span><strong>Mekana</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="stripe"><span class="shape-swatch stripe"></span><strong>Bočna traka</strong></button>
+              <button type="button" class="shape-choice" data-tab-shape="badge"><span class="shape-swatch badge"></span><strong>Značka</strong></button>
+            </div>
+          </div>
+
+          <div class="control-section">
+            <div class="section-title">
+              <span class="section-icon"><i class="fa-solid fa-layer-group"></i></span>
+              <div><span class="section-kicker">STIL TABA</span><h2>Izgled opcija</h2></div>
+            </div>
+            <div id="layout-picker" class="layout-picker" role="radiogroup" aria-label="Stil target opcija">
+              <button type="button" class="layout-choice" data-layout="glass"><span class="layout-swatch glass"></span><strong>Glass</strong><small>Transparentan</small></button>
+              <button type="button" class="layout-choice" data-layout="solid"><span class="layout-swatch solid"></span><strong>Solid</strong><small>Čist i jasan</small></button>
+              <button type="button" class="layout-choice" data-layout="minimal"><span class="layout-swatch minimal"></span><strong>Minimal</strong><small>Bez viška</small></button>
+              <button type="button" class="layout-choice" data-layout="neon"><span class="layout-swatch neon"></span><strong>Neon</strong><small>Svjetleći rub</small></button>
+              <button type="button" class="layout-choice" data-layout="outline"><span class="layout-swatch outline"></span><strong>Outline</strong><small>Skoro proziran</small></button>
+              <button type="button" class="layout-choice" data-layout="western"><span class="layout-swatch western"></span><strong>Western</strong><small>RedM stil</small></button>
+              <button type="button" class="layout-choice" data-layout="frost"><span class="layout-swatch frost"></span><strong>Frost</strong><small>Hladni stakleni ton</small></button>
+              <button type="button" class="layout-choice" data-layout="carbon"><span class="layout-swatch carbon"></span><strong>Carbon</strong><small>Tamna tekstura</small></button>
+              <button type="button" class="layout-choice" data-layout="gold"><span class="layout-swatch gold"></span><strong>Gold</strong><small>Luksuzni zlatni rub</small></button>
+              <button type="button" class="layout-choice" data-layout="crimson"><span class="layout-swatch crimson"></span><strong>Crimson</strong><small>Crveni naglasak</small></button>
+              <button type="button" class="layout-choice" data-layout="ghost"><span class="layout-swatch ghost"></span><strong>Ghost</strong><small>Vrlo lagana pozadina</small></button>
+              <button type="button" class="layout-choice" data-layout="terminal"><span class="layout-swatch terminal"></span><strong>Terminal</strong><small>Zeleni digitalni stil</small></button>
+            </div>
+          </div>
+
+          <div class="control-section">
+            <div class="section-title">
+              <span class="section-icon"><i class="fa-solid fa-shapes"></i></span>
+              <div><span class="section-kicker">RASPORED</span><h2>Pozicije opcija oko targeta</h2></div>
+            </div>
+            <div id="arrangement-picker" class="arrangement-picker" role="radiogroup" aria-label="Raspored opcija">
+              <button type="button" class="arrangement-choice" data-arrangement="list"><i class="fa-solid fa-list"></i><span><strong>Lista</strong><small>Klasični tab</small></span></button>
+              <button type="button" class="arrangement-choice" data-arrangement="cross"><i class="fa-solid fa-arrows-up-down-left-right"></i><span><strong>Križ</strong><small>Gore, dolje, lijevo, desno</small></span></button>
+              <button type="button" class="arrangement-choice" data-arrangement="circle"><i class="fa-regular fa-circle-dot"></i><span><strong>Krug</strong><small>Ravnomjerno oko targeta</small></span></button>
+              <button type="button" class="arrangement-choice" data-arrangement="arc"><i class="fa-solid fa-rainbow"></i><span><strong>Luk</strong><small>Sredina gore, rubovi dolje</small></span></button>
+              <button type="button" class="arrangement-choice" data-arrangement="fan"><i class="fa-solid fa-fan"></i><span><strong>Lepeza</strong><small>Polukrug s desne strane</small></span></button>
+              <button type="button" class="arrangement-choice" data-arrangement="zigzag"><i class="fa-solid fa-bolt"></i><span><strong>Zig-zag</strong><small>Naizmjenično lijevo i desno</small></span></button>
+              <button type="button" class="arrangement-choice custom-arrangement" data-arrangement="custom"><i class="fa-solid fa-pen-ruler"></i><span><strong>Ručno</strong><small>Povuci svaku tablu ručno</small></span></button>
+            </div>
+            <label class="range-control arrangement-radius"><span>Udaljenost od targeta <output id="radial-radius-output"></output></span><input type="range" min="45" max="200" step="5" name="radialRadius"></label>
+          </div>
+
+          <div class="control-section split-controls">
+            <label class="color-control">Boja naglaska<div><input id="accent-color" type="color" name="accentColor"><span id="accent-value"></span></div></label>
+            <label class="color-control">Druga boja<div><input id="secondary-color" type="color" name="secondaryColor"><span id="secondary-value"></span></div></label>
+            <label class="color-control">Boja teksta<div><input id="text-color" type="color" name="textColor"><span id="text-value"></span></div></label>
+            <label class="color-control">Pozadina<div><input id="background-color" type="color" name="backgroundColor"><span id="background-value"></span></div></label>
+            <label class="select-control">Pozicija linearnog taba
+              <select id="position-select" name="position">
+                <option value="right">Desno</option>
+                <option value="left">Lijevo</option>
+                <option value="below">Ispod</option>
+              </select>
+            </label>
+            <div class="color-transition-preview">
+              <span>Pregled prijelaza boja</span>
+              <div class="color-flow-track"><i></i></div>
+            </div>
+          </div>
+
+          <div class="control-section range-grid">
+            <label class="range-control"><span>Debljina ruba <output id="border-output"></output></span><input id="border-width" type="range" min="0" max="4" step="1" name="borderWidth"></label>
+            <label class="range-control"><span>Zaobljenje <output id="radius-output"></output></span><input id="radius" type="range" min="0" max="22" step="1" name="radius"></label>
+            <label class="range-control"><span>Širina taba <output id="width-output"></output></span><input id="menu-width" type="range" min="180" max="340" step="5" name="menuWidth"></label>
+            <label class="range-control"><span>Veličina UI-a <output id="scale-output"></output></span><input id="ui-scale" type="range" min="80" max="125" step="5" name="scale"></label>
+            <label class="range-control"><span>Visina opcije <output id="height-output"></output></span><input id="row-height" type="range" min="34" max="58" step="2" name="rowHeight"></label>
+            <label class="range-control"><span>Prozirnost <output id="opacity-output"></output></span><input id="opacity" type="range" min="20" max="100" step="5" name="opacity"></label>
+          </div>
+
+          <div class="control-section animation-controls">
+            <div class="section-title">
+              <span class="section-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+              <div><span class="section-kicker">ANIMACIJE</span><h2>Pokret i izmjena boja</h2></div>
+            </div>
+            <div class="split-controls">
+              <label class="select-control">Vrsta animacije
+                <select id="animation-style" name="animationStyle">
+                  <option value="pulse">Pulse krug</option>
+                  <option value="breathe">Disanje</option>
+                  <option value="spin">Rotacija</option>
+                  <option value="bounce">Poskakivanje</option>
+                  <option value="wiggle">Pomicanje lijevo-desno</option>
+                  <option value="flip">Okretanje 3D</option>
+                  <option value="orbit">Orbita</option>
+                  <option value="none">Bez pokreta</option>
+                </select>
+              </label>
+              <label class="select-control">Izmjena dvije boje
+                <select id="color-animation" name="colorAnimation">
+                  <option value="smooth">Glatki prijelaz</option>
+                  <option value="snap">Brza izmjena</option>
+                  <option value="flow">Tekući gradijent</option>
+                  <option value="wave">Val kroz table</option>
+                  <option value="glow">Dvobojni sjaj</option>
+                  <option value="border">Rubni puls</option>
+                </select>
+              </label>
+            </div>
+            <label class="range-control animation-speed"><span>Brzina animacije <output id="animation-speed-output"></output></span><input type="range" min="50" max="200" step="10" name="animationSpeed"></label>
+          </div>
+
+          <div class="control-section share-section">
+            <div class="section-title">
+              <span class="section-icon"><i class="fa-solid fa-share-nodes"></i></span>
+              <div><span class="section-kicker">DIJELJENJE</span><h2>Kopiraj ili uvezi izgled</h2></div>
+            </div>
+            <label class="share-code-field">Kod postavki
+              <textarea id="settings-share-code" maxlength="32768" rows="3" placeholder="OX1: zalijepi kod ovdje..." autocomplete="off" spellcheck="false"></textarea>
+            </label>
+            <div class="share-actions">
+              <button id="copy-settings-code" class="button secondary" type="button"><i class="fa-solid fa-copy"></i> Kopiraj kod</button>
+              <button id="import-settings-code" class="button secondary" type="button"><i class="fa-solid fa-file-import"></i> Uvezi kod</button>
+            </div>
+            <p class="field-help">Pošalji kopirani kod drugom igraču. Uvezeni izgled postaje trajan tek kada klikneš Spremi promjene.</p>
+          </div>
+
+          <div class="control-section toggle-row">
+            <label class="toggle-control"><span><strong>Svjetlosni efekt</strong><small>Svjetlo oko target ikonice</small></span><input id="glow-toggle" type="checkbox" name="glow"><i></i></label>
+            <label class="toggle-control"><span><strong>Animacije</strong><small>Glatki ulaz i efekti prelaska</small></span><input id="animation-toggle" type="checkbox" name="animations"><i></i></label>
+            <label class="toggle-control"><span><strong>Dvije boje</strong><small>Izmjenjuje naglasak i drugu boju</small></span><input id="dual-color-toggle" type="checkbox" name="dualColor"><i></i></label>
+            <label class="toggle-control"><span><strong>Brojevi opcija</strong><small>Prikaži redni broj desno</small></span><input id="numbers-toggle" type="checkbox" name="showNumbers"><i></i></label>
+          </div>
+        </form>
+      </div>
+
+      <footer class="settings-footer">
+        <div class="command-tip"><kbd>/ox</kbd><span>Postavke možeš otvoriti bilo kada</span></div>
+        <div class="footer-actions">
+          <button id="save-server-settings" class="button admin" type="button" hidden><i class="fa-solid fa-shield-halved"></i> Postavi kao server zadano</button>
+          <button id="reset-settings" class="button secondary" type="button"><i class="fa-solid fa-arrow-rotate-left"></i> Vrati zadano</button>
+          <button id="save-settings" class="button primary" type="button"><i class="fa-solid fa-check"></i> Spremi promjene</button>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"><i class="fa-solid fa-check-circle"></i><span>Postavke spremljene</span></div>
+  <script defer type="module" src="js/main.js?v=2.7.4"></script>
+</body>
+</html>
