@@ -96,3 +96,12 @@ Imported codes pass through the same validation as manually selected settings. T
 ## Original Project
 
 This is a RedM edition of [ox_target](https://github.com/overextended/ox_target), adapted for RedM/VORP/RSG. The original MIT license is included in the `LICENSE` file.
+
+
+https://cdn.discordapp.com/attachments/1415705291642634350/1533963893720879275/image.png?ex=6a7266b3&is=6a711533&hm=cac802376f459e8c7c6b38bfc7108be66ca98f5ac63c24d8071fc27d13268dd5&
+
+https://cdn.discordapp.com/attachments/1415705291642634350/1533963980542841052/image.png?ex=6a7266c8&is=6a711548&hm=dbee74f603d78127ae3ef07384a92c22690d889873700798f56579e69419e8cd&
+
+https://cdn.discordapp.com/attachments/1415705291642634350/1533964031306760263/image.png?ex=6a7266d4&is=6a711554&hm=1e8df244cde72c341b00e680d250fd3de867dc62e4f7fbc443bff727b0bf21b7&
+
+https://cdn.discordapp.com/attachments/1415705291642634350/1533964081000611871/image.png?ex=6a7266e0&is=6a711560&hm=0ba646f6346cc8bb60bfe6257f31ebf3b617ac569285911875e8f24eb9eccf3e&
